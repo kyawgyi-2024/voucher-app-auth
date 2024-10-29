@@ -1,0 +1,146 @@
+{
+  "products": [
+    {
+      "product_name": "SEO Optimization Service par",
+      "price": "3000",
+      "created_at": "2024-10-03T11:31:35.982Z",
+      "id": 3
+    },
+    {
+      "id": 4,
+      "product_name": "Responsive Website Development",
+      "price": 800,
+      "created_at": "2024-09-11T10:45:00Z"
+    },
+    {
+      "id": 7,
+      "product_name": "CMS Integration Service",
+      "price": 500,
+      "created_at": "2024-09-08T11:30:00Z"
+    },
+    {
+      "id": 8,
+      "product_name": "Web Hosting and Deployment",
+      "price": 250,
+      "created_at": "2024-09-07T18:00:00Z"
+    },
+    {
+      "id": 9,
+      "product_name": "Custom Web Application Development",
+      "price": 2000,
+      "created_at": "2024-09-06T09:45:00Z"
+    },
+    {
+      "id": 10,
+      "product_name": "UI/UX Design Consulting",
+      "price": 700,
+      "created_at": "2024-09-05T15:00:00Z"
+    }
+  ],
+  "vouchers": [
+    {
+      "voucher_id": "INV-20241009-6759",
+      "customer_name": "Lu Lu Aung",
+      "customer_email": "Lu@gmail.com",
+      "sale_date": "2024-10-09",
+      "redirect_to_detail": false,
+      "all_correct": true,
+      "records": [
+        {
+          "id": 1728474962070,
+          "product": {
+            "id": 5,
+            "product_name": "E-commerce Setup Service",
+            "price": 1500,
+            "created_at": "2024-09-10T16:20:15Z"
+          },
+          "quantity": "2",
+          "cost": 3000,
+          "created_at": "2024-10-09T11:56:02.070Z"
+        }
+      ],
+      "total": 3000,
+      "tax": 210.00000000000003,
+      "netTotal": 3210,
+      "id": 1
+    },
+    {
+      "voucher_id": "INV-20241009-8951",
+      "customer_name": "kyawgyi",
+      "customer_email": "kyawgyi@gmail.com",
+      "sale_date": "2024-10-09",
+      "redirect_to_detail": false,
+      "all_correct": true,
+      "records": [
+        {
+          "id": 1728474993821,
+          "product": {
+            "id": 7,
+            "product_name": "CMS Integration Service",
+            "price": 500,
+            "created_at": "2024-09-08T11:30:00Z"
+          },
+          "quantity": "7",
+          "cost": 3500,
+          "created_at": "2024-10-09T11:56:33.821Z"
+        }
+      ],
+      "total": 3500,
+      "tax": 245.00000000000003,
+      "netTotal": 3745,
+      "id": 2
+    },
+    {
+      "voucher_id": "INV-20241009-4060",
+      "customer_name": "Ni Ni Lin Eain",
+      "customer_email": "nini@gmail.com",
+      "sale_date": "2024-10-09",
+      "redirect_to_detail": true,
+      "all_correct": true,
+      "records": [
+        {
+          "id": 1728475021929,
+          "product": {
+            "id": 10,
+            "product_name": "UI/UX Design Consulting",
+            "price": 700,
+            "created_at": "2024-09-05T15:00:00Z"
+          },
+          "quantity": "4",
+          "cost": 2800,
+          "created_at": "2024-10-09T11:57:01.929Z"
+        }
+      ],
+      "total": 2800,
+      "tax": 196.00000000000003,
+      "netTotal": 2996,
+      "id": 3
+    },
+    {
+      "voucher_id": "INV-20241009-3644",
+      "customer_name": "zawgyi",
+      "customer_email": "zaw@gmail.com",
+      "sale_date": "2024-10-09",
+      "redirect_to_detail": true,
+      "all_correct": true,
+      "records": [
+        {
+          "id": 1728475312991,
+          "product": {
+            "id": 4,
+            "product_name": "Responsive Website Development",
+            "price": 800,
+            "created_at": "2024-09-11T10:45:00Z"
+          },
+          "quantity": "4",
+          "cost": 3200,
+          "created_at": "2024-10-09T12:01:52.991Z"
+        }
+      ],
+      "total": 3200,
+      "tax": 224.00000000000003,
+      "netTotal": 3424,
+      "id": 5
+    }
+  ]
+}
