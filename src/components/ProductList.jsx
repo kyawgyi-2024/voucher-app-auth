@@ -1,10 +1,10 @@
 import React, { useRef, useState } from "react";
 import { HiOutlineSearch, HiX } from "react-icons/hi";
-import { HiPlus } from "react-icons/hi2";
+import { HiPlus, HiChevronDown, HiChevronUp } from "react-icons/hi2";
 import ProductListSkeletonLoader from "./ProductListSkeletonLoader";
 import ProductListEmptyStage from "./ProductListEmptyStage";
 import ProductRow from "./ProductRow";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { debounce, throttle } from "lodash";
 import useSWR from "swr";
 import Pagination from "./Pagination";
@@ -14,8 +14,15 @@ const ProductList = () => {
   const [search, setSearch] = useState("");
   const [token] = useCookie("my_token");
 
+  // const searchInput = useRef("");
+
+  const location = useLocation();
+  // console.log(location);
+
+  const [params, setParams] = useSearchParams();
+
   const [fetchUrl, setFetchUrl] = useState(
-    import.meta.env.VITE_API_URL + "/products"
+    import.meta.env.VITE_API_URL + "/products" + location.search
   );
   const fetcher = (url) =>
     fetch(url, {
@@ -27,15 +34,39 @@ const ProductList = () => {
   const { data, isLoading, error } = useSWR(fetchUrl, fetcher);
 
   const handleSearch = debounce((e) => {
-    setFetchUrl(`${import.meta.env.VITE_API_URL}/products?q=${e.target.value}`);
+    // setFetchUrl(`${import.meta.env.VITE_API_URL}/products?q=${e.target.value}`);
+
+    if (e.target.value) {
+      setParams({ q: e.target.value });
+      setFetchUrl(
+        import.meta.env.VITE_API_URL + `/products?q=${e.target.value}`
+      );
+    } else {
+      setParams({});
+      setFetchUrl(import.meta.env.VITE_API_URL + "/products");
+    }
   }, 500);
   const updateFetchUrl = (url) => {
+    // console.log(url);
+    // console.log(params);
+    const currentUrl = new URL(url);
+    const newSearchParams = new URLSearchParams(currentUrl.search);
+
+    const paramsObj = Object.fromEntries(newSearchParams);
+    setParams(newSearchParams);
+    // console.log(paramsObj);
     setFetchUrl(url);
   };
 
   const handleClearSearch = () => {
     setSearch("");
     searchInput.current.value = "";
+  };
+  const handleSort = (sortData) => {
+    console.log(sortData);
+    const sortParams = new URLSearchParams(sortData).toString();
+    setParams(sortData);
+    setFetchUrl(`${import.meta.env.VITE_API_URL}/products?${sortParams}`);
   };
 
   return (
@@ -81,14 +112,59 @@ const ProductList = () => {
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="px-6 py-3">
-                #
+                <div className="flex items-center gap-1">
+                  <span className=" flex flex-col">
+                    <button
+                      className=" hover:bg-stone-300"
+                      onClick={handleSort.bind(null, {
+                        sort_by: "id",
+                        sort_direction: "asc",
+                      })}
+                    >
+                      <HiChevronUp />
+                    </button>
+                    <button
+                      className=" hover:bg-stone-300"
+                      onClick={handleSort.bind(null, {
+                        sort_by: "id",
+                        sort_direction: "desc",
+                      })}
+                    >
+                      <HiChevronDown />
+                    </button>
+                  </span>
+                  <span>#</span>
+                </div>
               </th>
               <th scope="col" className="px-6 py-3">
                 Product name
               </th>
 
               <th scope="col" className="px-6 py-3 text-end">
-                Price
+              <div className="flex items-center gap-1">
+                  <span className=" flex flex-col">
+                    <button
+                      className=" hover:bg-stone-300"
+                      onClick={handleSort.bind(null, {
+                        sort_by: "price",
+                        sort_direction: "asc",
+                      })}
+                    >
+                      <HiChevronUp />
+                    </button>
+                    <button
+                      className=" hover:bg-stone-300"
+                      onClick={handleSort.bind(null, {
+                        sort_by: "price",
+                        sort_direction: "desc",
+                      })}
+                    >
+                      <HiChevronDown />
+                    </button>
+                  </span>
+                  <span>Price</span>
+                </div>
+                
               </th>
               <th scope="col" className="px-6 py-3 text-end">
                 Created At

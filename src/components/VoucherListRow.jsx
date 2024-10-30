@@ -8,7 +8,15 @@ import { Link } from "react-router-dom";
 import useCookie from "react-use-cookie";
 
 const VoucherListRow = ({
-  voucher: { id, voucher_id, customer_name, customer_email, sale_date },
+  voucher: {
+    id,
+    voucher_id,
+    customer_name,
+    customer_email,
+    total,
+    sale_date,
+    created_at,
+  },
 }) => {
   // console.log(voucher)
   bouncy.register();
@@ -17,14 +25,13 @@ const VoucherListRow = ({
   const [isDeleting, setIsDeleting] = useState(false);
   const [userToken, setUserToken] = useCookie("my_token");
 
-
   const handleDeleteBtn = async () => {
     setIsDeleting(true);
     await fetch(import.meta.env.VITE_API_URL + `/vouchers/${id}`, {
       method: "DELETE",
       headers: {
-        "Authorization": `Bearer ${userToken}`,
-      }
+        Authorization: `Bearer ${userToken}`,
+      },
     });
     mutate(import.meta.env.VITE_API_URL + "/vouchers");
     toast.success("Voucher Deleted Successfully");
@@ -35,18 +42,20 @@ const VoucherListRow = ({
 
   return (
     <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-      <td className="px-6 py-4">{voucher_id}</td>
+      <td className="px-6 py-4">{id}</td>
+      <td className="px-6 py-4 text-nowrap">{voucher_id}</td>
       <th
         scope="row"
-        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+        className="flex flex-col px-6 py-4 font-medium whitespace-nowrap dark:text-white"
       >
-        {customer_name}
+        <span className=" text-stone-900">{customer_name}</span>
+        <span className=" text-xs">{customer_email}</span>
       </th>
 
-      <td className="px-6 py-4">{customer_email}</td>
+      <td className="px-6 py-4 text-end">{total}</td>
 
       <td className="px-6 py-4 text-end">
-        <ShowDate timestamp={sale_date} />
+        <ShowDate timestamp={created_at} />
       </td>
       <td className="px-6 py-4 text-end">
         <div className=" flex space-x-2 justify-end text-end">

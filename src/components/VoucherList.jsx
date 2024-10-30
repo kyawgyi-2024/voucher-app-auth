@@ -1,15 +1,14 @@
 import React, { useRef, useState } from "react";
 import { HiOutlineSearch, HiX } from "react-icons/hi";
-import { HiComputerDesktop } from "react-icons/hi2";
-import { Link } from "react-router-dom";
+import { HiComputerDesktop,HiChevronDown,
+  HiChevronUp } from "react-icons/hi2";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import useSWR from "swr";
 import VoucherListRow from "./VoucherListRow";
 import VLRSkeletonloader from "./VLRSkeletonloader";
-import { debounce, throttle } from "lodash";
+import { debounce, set, throttle } from "lodash";
 import Pagination from "./Pagination";
 import useCookie from "react-use-cookie";
-
-
 
 const VoucherList = () => {
   const [userToken, setUserToken] = useCookie("my_token");
@@ -24,15 +23,27 @@ const VoucherList = () => {
         Authorization: `Bearer ${userToken}`,
       },
     }).then((r) => r.json());
+  const location = useLocation();
+  // console.log(location);
+
+  const [params, setParams] = useSearchParams();
 
   const [fetchUrl, setFetchUrl] = useState(
-    import.meta.env.VITE_API_URL + "/vouchers"
+    import.meta.env.VITE_API_URL + "/vouchers" + location.search
   );
   const { data, isLoading, error } = useSWR(fetchUrl, fetcher);
 
   const handleSearch = debounce((e) => {
-    console.log(e.target.value);
-    setFetchUrl(import.meta.env.VITE_API_URL + `/vouchers?q=${e.target.value}`);
+    // console.log(e.target.value);
+    if (e.target.value) {
+      setParams({ q: e.target.value });
+      setFetchUrl(
+        import.meta.env.VITE_API_URL + `/vouchers?q=${e.target.value}`
+      );
+    } else {
+      setParams({});
+      setFetchUrl(import.meta.env.VITE_API_URL + "/vouchers");
+    }
   }, 500);
 
   const handleClearSearch = () => {
@@ -41,7 +52,24 @@ const VoucherList = () => {
   };
 
   const updateFetchUrl = (url) => {
+    // console.log(url);
+    // console.log(params);
+    const currentUrl = new URL(url);
+    const newSearchParams = new URLSearchParams(currentUrl.search);
+
+    const paramsObj = Object.fromEntries(newSearchParams);
+    setParams(newSearchParams);
+    // console.log(paramsObj);
     setFetchUrl(url);
+  };
+
+  // if(isLoading) return <p>Loading...</p>
+  // console.log(data);
+  const handleSort = (sortData) => {
+    console.log(sortData);
+    const sortParams = new URLSearchParams(sortData).toString();
+    setParams(sortData);
+    setFetchUrl(`${import.meta.env.VITE_API_URL}/vouchers?${sortParams}`);
   };
 
   return (
@@ -87,13 +115,62 @@ const VoucherList = () => {
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="px-6 py-3">
-                # Voucher ID
+              <div className="flex items-center gap-1">
+                  <span className=" flex flex-col">
+                    <button
+                      className=" hover:bg-stone-300"
+                      onClick={handleSort.bind(null, {
+                        sort_by: "id",
+                        sort_direction: "asc",
+                      })}
+                    >
+                      <HiChevronUp />
+                    </button>
+                    <button
+                      className=" hover:bg-stone-300"
+                      onClick={handleSort.bind(null, {
+                        sort_by: "id",
+                        sort_direction: "desc",
+                      })}
+                    >
+                      <HiChevronDown />
+                    </button>
+                  </span>
+                  <span>#</span>
+                </div>
               </th>
               <th scope="col" className="px-6 py-3">
-                Customer Name
+                Voucher ID
               </th>
-              <th scope="col" className="px-6 py-3 text-center">
-                EMail
+              <th scope="col" className="px-6 py-3">
+                Customer
+              </th>
+              
+              <th scope="col" className="px-6 py-3">
+              <div className="flex items-center gap-1">
+                  <span className=" flex flex-col">
+                    <button
+                      className=" hover:bg-stone-300"
+                      onClick={handleSort.bind(null, {
+                        sort_by: "total",
+                        sort_direction: "asc",
+                      })}
+                    >
+                      <HiChevronUp />
+                    </button>
+                    <button
+                      className=" hover:bg-stone-300"
+                      onClick={handleSort.bind(null, {
+                        sort_by: "total",
+                        sort_direction: "desc",
+                      })}
+                    >
+                      <HiChevronDown />
+                    </button>
+                  </span>
+                  <span>Total</span>
+                </div>
+                
               </th>
 
               <th scope="col" className="px-6 py-3 text-end">

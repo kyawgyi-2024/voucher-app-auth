@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 
 const Breadcrumb = ({ currentPageTitle, links }) => {
   return (
-    <div className=" flex w-full gap-3 mb-5 bg-slate-50 p-3 rounded-lg">
-      <nav className="flex" aria-label="Breadcrumb">
+    <div className=" flex w-full gap-3 mb-5 ">
+      <nav className="flex bg-slate-50 p-3 rounded-lg" aria-label="Breadcrumb">
         <ol className="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
           <li className="inline-flex items-center">
             <Link
